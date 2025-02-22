@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": "5",
+      "code": "SN09",
+      "designation": "OOO",
+      "prix": 1234,
+      "date_expiration": null,
+      "description": null
+    },
+    {
+      "id": 2,
+      "code": "SN001",
+      "designation": "SAVON",
+      "prix": 1235,
+      "date_expiration": null,
+      "description": null
+    },
+    {
+      "id": 6,
+      "code": "SN002",
+      "designation": "MOUTARDE",
+      "prix": 100,
+      "date_expiration": null,
+      "description": null
+    }
+  ]
+}
