@@ -18,26 +18,6 @@ class ProduitService {
     }
   }
 
-  // // POST : Ajoute un produit
-  // Future<Produit> addProduit(Produit produit) async {
-  //   // Retirer l'id pour laisser le serveur l'auto-incrémenter
-  //   final bodyMap = produit.toJson();
-  //   bodyMap.remove('id');
-  //
-  //   final response = await http.post(
-  //     Uri.parse(baseUrl),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: json.encode(bodyMap),
-  //   );
-  //   if (response.statusCode == 201 || response.statusCode == 200) {
-  //     return Produit.fromJson(json.decode(response.body));
-  //   } else {
-  //     throw Exception('Erreur lors de l\'ajout du produit');
-  //   }
-  // }
-
-
-
   // POST : Ajoute un produit en attribuant un nouvel id (auto-incrémenté)
   Future<Produit> addProduit(Produit produit) async {
     // Récupère la liste actuelle pour déterminer le plus grand id
