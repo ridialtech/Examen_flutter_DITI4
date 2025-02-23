@@ -20,11 +20,9 @@ class _ProduitPageState extends State<ProduitPage> {
     _loadProduits();
   }
 
-  // Récupère la liste des produits depuis le serveur
   Future<void> _loadProduits() async {
     try {
       final produits = await _produitService.getProduits();
-      // Tri décroissant par ID
       produits.sort((a, b) => b.id.compareTo(a.id));
       setState(() {
         _produits = produits;
@@ -38,7 +36,6 @@ class _ProduitPageState extends State<ProduitPage> {
     }
   }
 
-  // Ouvre le dialogue pour ajouter un produit
   void _onAddPressed() {
     showDialog(
       context: context,
@@ -52,7 +49,6 @@ class _ProduitPageState extends State<ProduitPage> {
     );
   }
 
-  // Ouvre le dialogue pour modifier un produit existant
   void _onUpdatePressed(Produit produit) {
     showDialog(
       context: context,
@@ -67,7 +63,6 @@ class _ProduitPageState extends State<ProduitPage> {
     );
   }
 
-  // Supprime un produit
   Future<void> _onDeletePressed(int id) async {
     try {
       await _produitService.deleteProduit(id);
@@ -82,49 +77,71 @@ class _ProduitPageState extends State<ProduitPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Gestion des produits"),
+        backgroundColor: const Color(0xFF017FFF), // Couleur #17f pour l'AppBar
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add, color: Colors.white), // Icône blanche pour contraster
             onPressed: _onAddPressed,
           ),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        itemCount: _produits.length,
-        itemBuilder: (context, index) {
-          final p = _produits[index];
-          return Card(
-            child: ListTile(
-              title: Text('${p.code} - ${p.designation}'),
-              subtitle: Text('ID: ${p.id} | Prix: ${p.prix}'),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Bouton Update
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () => _onUpdatePressed(p),
+      body: Column(
+        children: [
+          Expanded(
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+              itemCount: _produits.length,
+              itemBuilder: (context, index) {
+                final p = _produits[index];
+                return Card(
+                  elevation: 4,
+                  margin: const EdgeInsets.all(8),
+                  child: ListTile(
+                    title: Text('${p.code} - ${p.designation}'),
+                    subtitle: Text('ID: ${p.id} | Prix: ${p.prix}'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Color(0xFF017FFF)), // Icône bleue
+                          onPressed: () => _onUpdatePressed(p),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red), // Icône rouge pour la suppression
+                          onPressed: () => _onDeletePressed(p.id),
+                        ),
+                      ],
+                    ),
                   ),
-                  // Bouton Supprimer
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _onDeletePressed(p.id),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
+          ),
+          // Ajout du copyright en bas de la page
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              '© 2025 Cheikh Ibra Faye - Examen DITI4 Flutter',
+              style: TextStyle(
+                color: Colors.grey[600], // Couleur grise pour le texte
+                fontSize: 14, // Taille de police
+                fontStyle: FontStyle.italic, // Style italique
+              ),
+              textAlign: TextAlign.center, // Centrer le texte
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onAddPressed,
+        backgroundColor: const Color(0xFF017FFF), // Couleur #17f pour le bouton flottant
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 }
 
-// ---------------------------------------------------------
-// Dialogue/Formulaire pour Ajouter ou Modifier un produit
-// ---------------------------------------------------------
 class _ProduitDialog extends StatefulWidget {
   final Produit? existingProduit;
   final Function(Produit) onSaved;
@@ -175,7 +192,6 @@ class _ProduitDialogState extends State<_ProduitDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Champ Code (non modifiable en édition)
             TextField(
               controller: _codeController,
               decoration: const InputDecoration(labelText: 'Code'),
@@ -204,11 +220,14 @@ class _ProduitDialogState extends State<_ProduitDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Annuler'),
+          child: const Text('Annuler', style: TextStyle(color: Color(0xFF017FFF))), // Texte bleu
         ),
         ElevatedButton(
           onPressed: _onSave,
-          child: const Text('Enregistrer'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF017FFF), // Couleur #17f pour le bouton
+          ),
+          child: const Text('Enregistrer', style: TextStyle(color: Colors.white)),
         ),
       ],
     );
@@ -225,7 +244,7 @@ class _ProduitDialogState extends State<_ProduitDialog> {
       final old = widget.existingProduit!;
       final updated = Produit(
         id: old.id,
-        code: old.code, // Le code reste inchangé
+        code: old.code,
         designation: designation,
         prix: prix,
         dateExpiration: dateExp,
@@ -233,7 +252,6 @@ class _ProduitDialogState extends State<_ProduitDialog> {
       );
       widget.onSaved(updated);
     } else {
-      // Lors de l'ajout, on fixe id à 0, le serveur générera le nouvel id
       final newProduit = Produit(
         id: 0,
         code: code,
@@ -246,4 +264,3 @@ class _ProduitDialogState extends State<_ProduitDialog> {
     }
   }
 }
-

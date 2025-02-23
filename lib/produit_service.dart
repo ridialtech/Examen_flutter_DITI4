@@ -73,6 +73,22 @@ class ProduitService {
 
 
   // PUT : Met à jour un produit existant
+  // Future<Produit> updateProduit(Produit produit) async {
+  //   final url = '$baseUrl/${produit.id}';
+  //   final response = await http.put(
+  //     Uri.parse(url),
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: json.encode(produit.toJson()),
+  //   );
+  //   if (response.statusCode == 200) {
+  //     return Produit.fromJson(json.decode(response.body));
+  //   } else {
+  //     throw Exception('Erreur lors de la mise à jour du produit');
+  //   }
+  // }
+
+
+
   Future<Produit> updateProduit(Produit produit) async {
     final url = '$baseUrl/${produit.id}';
     final response = await http.put(
@@ -80,12 +96,15 @@ class ProduitService {
       headers: {'Content-Type': 'application/json'},
       body: json.encode(produit.toJson()),
     );
+    debugPrint('Update (PUT) response: code: ${response.statusCode}, body: ${response.body}');
     if (response.statusCode == 200) {
       return Produit.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Erreur lors de la mise à jour du produit');
+      throw Exception('Erreur lors de la mise à jour du produit, code ${response.statusCode}');
     }
   }
+
+
 
   // // DELETE : Supprime un produit
   // Future<void> deleteProduit(int produitId) async {

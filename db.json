@@ -1,26 +1,34 @@
 {
   "products": [
     {
-      "id": "5",
-      "code": "SN09",
-      "designation": "OOO",
-      "prix": 1234,
-      "date_expiration": null,
-      "description": null
+      "id": "2",
+      "code": "P002",
+      "designation": "Produit 2",
+      "prix": 100,
+      "date_expiration": "2026-02-01",
+      "description": "DeuxiÃ¨me produit"
     },
     {
-      "id": 2,
-      "code": "SN001",
-      "designation": "SAVON",
-      "prix": 1235,
+      "id": 5,
+      "code": "L0001",
+      "designation": "LAIT",
+      "prix": 100,
       "date_expiration": null,
       "description": null
     },
     {
       "id": 6,
-      "code": "SN002",
-      "designation": "MOUTARDE",
-      "prix": 100,
+      "code": "SU01",
+      "designation": "SUCRE",
+      "prix": 25,
+      "date_expiration": null,
+      "description": null
+    },
+    {
+      "id": 7,
+      "code": "V001",
+      "designation": "VIANDE",
+      "prix": 3000,
       "date_expiration": null,
       "description": null
     }
